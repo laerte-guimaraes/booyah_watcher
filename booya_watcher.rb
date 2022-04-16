@@ -67,3 +67,5 @@ class BooyahWatcher
     puts "#{Time.now} - #{message}"
   end
 end
+
+BooyahWatcher.new(ARGV[0]).watch(ENV.fetch('BOOYAH_CHANNEL'))
