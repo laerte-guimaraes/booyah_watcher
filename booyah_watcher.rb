@@ -1,5 +1,5 @@
+require 'capybara/cuprite'
 require 'capybara/dsl'
-require 'selenium-webdriver'
 
 class BooyahWatcher
   include Capybara::DSL
@@ -8,12 +8,22 @@ class BooyahWatcher
   FACEBOOK_PASSWORD = ENV.fetch('FACEBOOK_PASSWORD').freeze
 
   def initialize(approvals_code)
-    Capybara.register_driver :selenium do |app|
-      Capybara::Selenium::Driver.new(app,:browser => :chrome, timeout: 30)
+    Capybara.register_driver :cuprite do |app|
+      Capybara::Cuprite::Driver.new(
+        app,
+        headless: true,
+        inspector: true,
+        process_timeout: 5,
+        timeout: 120,
+        browser_options: {
+          'no-sandbox': nil,
+          'ignore-certificate-errors' => true
+        }
+      )
     end
   
     Capybara.configure do |config|
-      config.default_driver = :selenium 
+      config.default_driver = :cuprite 
       config.app_host = "https://www.google.com"
       config.default_max_wait_time = 30
     end
