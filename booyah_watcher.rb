@@ -45,7 +45,8 @@ class BooyahWatcher
       return log_message('Streamer Offline!')
     end
 
-    while !has_content?('Vamos continuar a conversa')
+    while !has_content?('Vamos continuar a conversa') && !has_content?('Ir para o canal')
+      log_message('Stream em andamento...')
       sleep(1800) # Verifica status da Stream a cada 30 min
     end
 
